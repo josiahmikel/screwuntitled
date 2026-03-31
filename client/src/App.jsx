@@ -698,22 +698,23 @@ export default function App() {
           )}
         </Droppable>
         
-        <div style={{ marginTop: '150px', marginBottom: '100px' }}>
-          <button style={{ fontSize: '10px', fontWeight: 'normal' }} onClick={() => setShowTrash(!showTrash)}>
-            {showTrash ? 'Hide Trash' : 'Show Trash'}
-          </button>
-          
-          {showTrash && (
-            <div style={{ marginTop: '20px', paddingTop: '20px' }}>
-              <Droppable droppableId="trash" type="TRACK">
-                {(provided) => (
-                  <div 
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    style={{ minHeight: '50px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}
-                  >
-                    {boardState.trash?.length === 0 && <span style={{ color: '#888', fontSize: '10px' }}>Trash is empty</span>}
-                    {boardState.trash?.map((track, trackIndex) => (
+        {isLoaded && (
+          <div style={{ marginTop: '150px', marginBottom: '100px' }}>
+            <button style={{ fontSize: '10px', fontWeight: 'normal' }} onClick={() => setShowTrash(!showTrash)}>
+              {showTrash ? '- Hide recently deleted' : '+ Recently deleted'}
+            </button>
+            
+            {showTrash && (
+              <div style={{ marginTop: '20px', paddingTop: '20px' }}>
+                <Droppable droppableId="trash" type="TRACK">
+                  {(provided) => (
+                    <div 
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      style={{ minHeight: '50px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}
+                    >
+                      {boardState.trash?.length === 0 && <span style={{ color: '#888', fontSize: '10px' }}>Recently deleted is empty</span>}
+                      {boardState.trash?.map((track, trackIndex) => (
                       <Draggable key={track.id} draggableId={track.id} index={trackIndex}>
                         {(provided) => (
                            <div
@@ -737,6 +738,7 @@ export default function App() {
             </div>
           )}
         </div>
+        )}
       </DragDropContext>
     </div>
   );
