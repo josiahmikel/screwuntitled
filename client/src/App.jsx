@@ -670,16 +670,16 @@ export default function App() {
                       </Droppable>
                       
                       {collapsedProjects[project.id] !== false ? (
-                        <button className="add-btn" onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: false}))}>
-                          Expand Project
+                        <button className="add-btn" style={{ fontSize: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: false}))}>
+                          + Expand project
                         </button>
                       ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                           <button className="add-btn" onClick={() => initiateUpload(project.id)}>
                             + Add tracks
                           </button>
-                          <button className="add-btn" style={{ marginTop: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: true}))}>
-                            Collapse Project
+                          <button className="add-btn" style={{ marginTop: '10px', fontSize: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: true}))}>
+                            - Collapse project
                           </button>
                         </div>
                       )}
