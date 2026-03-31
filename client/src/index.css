@@ -130,13 +130,8 @@ h1.demos-header {
 }
 
 .project-menu-btn {
-  opacity: 0;
-  transition: opacity 0.1s ease;
-  transform: translateY(-4px);
-}
-
-.project-title:hover .project-menu-btn {
   opacity: 1;
+  transform: translateY(-4px);
 }
 
 .track-menu-btn {
