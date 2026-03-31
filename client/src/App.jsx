@@ -670,9 +670,14 @@ export default function App() {
                           Expand Project
                         </button>
                       ) : (
-                        <button className="add-btn" onClick={() => initiateUpload(project.id)}>
-                          + Add tracks
-                        </button>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                          <button className="add-btn" onClick={() => initiateUpload(project.id)}>
+                            + Add tracks
+                          </button>
+                          <button className="add-btn" style={{ marginTop: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: true}))}>
+                            Collapse Project
+                          </button>
+                        </div>
                       )}
                       
                       {uploadingProjects[project.id] && (
