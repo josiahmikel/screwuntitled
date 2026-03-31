@@ -79,6 +79,8 @@ export default function App() {
   const [playbackTime, setPlaybackTime] = useState(0);
   const [playbackDuration, setPlaybackDuration] = useState(0);
   const [uploadingProjects, setUploadingProjects] = useState({});
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [collapsedProjects, setCollapsedProjects] = useState({});
   
   const [loopedTracks, setLoopedTracks] = useState({});
   const [loopedProjects, setLoopedProjects] = useState({});
@@ -92,7 +94,10 @@ export default function App() {
   const [uploadTargetId, setUploadTargetId] = useState(null);
 
   useEffect(() => {
-    socket.on('initialState', (state) => setBoardState({ projects: state.projects || [], trash: state.trash || [] }));
+    socket.on('initialState', (state) => {
+      setBoardState({ projects: state.projects || [], trash: state.trash || [] });
+      setIsLoaded(true);
+    });
     socket.on('boardUpdated', (state) => setBoardState({ projects: state.projects || [], trash: state.trash || [] }));
 
     const audio = audioRef.current;
@@ -246,7 +251,10 @@ export default function App() {
       }
     }
 
-    emitUpdate({ projects: newProjects, trash: newTrash });
+    setBoardState(prev => {
+      socket.emit('updateBoard', { projects: newProjects, trash: newTrash });
+      return { projects: newProjects, trash: newTrash };
+    });
   };
 
   const toggleDropdown = (id, e) => {
@@ -492,10 +500,19 @@ export default function App() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', gap: '120px', marginBottom: '80px' }}>
-        <h1 className="demos-header" style={{ margin: 0 }}>fuck[untitled]</h1>
-        <button className="add-project-btn" onClick={handleAddProject} style={{ margin: 0 }}>
-          + Add Project
-        </button>
+        <div>
+          <h1 className="demos-header" style={{ margin: 0 }}>fuck[untitled]</h1>
+          {!isLoaded && (
+            <div style={{ fontSize: '10px', color: '#888', fontStyle: 'italic', marginTop: '10px' }}>
+              connecting to cloud...
+            </div>
+          )}
+        </div>
+        {isLoaded && (
+          <button className="add-project-btn" onClick={handleAddProject} style={{ margin: 0 }}>
+            + Add Project
+          </button>
+        )}
       </div>
       
       <input 
@@ -550,6 +567,11 @@ export default function App() {
                           ) : (
                             <div style={{ flex: 1, minHeight: '16px', cursor: 'grab' }}>
                               {project.title || "..."}
+                              {collapsedProjects[project.id] && (
+                                <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
+                                  {project.tracks.length} tracks
+                                </div>
+                              )}
                             </div>
                           )}
                           <button className="project-menu-btn" onClick={(e) => toggleDropdown(`menu-p-${project.id}`, e)} style={{ marginLeft: '10px' }}>...</button>
@@ -558,6 +580,9 @@ export default function App() {
                           <div className="dropdown-menu">
                             <button onClick={(e) => { e.stopPropagation(); setEditingProject(project.id); setOpenDropdown(null); }}>
                               Rename
+                            </button>
+                            <button onClick={(e) => { e.stopPropagation(); setCollapsedProjects(prev => ({...prev, [project.id]: !prev[project.id]})); setOpenDropdown(null); }}>
+                              {collapsedProjects[project.id] ? 'Expand' : 'Collapse'}
                             </button>
                             <button onClick={(e) => handleProjectAction('loop', project, e)}>
                               {loopedProjects[project.id] ? 'Unloop' : 'Loop'}
@@ -576,6 +601,7 @@ export default function App() {
                             className="tracks-list"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
+                            style={{ display: collapsedProjects[project.id] ? 'none' : 'block' }}
                           >
                             {project.tracks.map((track, trackIndex) => {
                               const isPlaying = playingId === track.id;
@@ -633,9 +659,16 @@ export default function App() {
                         )}
                       </Droppable>
                       
-                      <button className="add-btn" onClick={() => initiateUpload(project.id)}>
-                        + Add Track
-                      </button>
+                      {collapsedProjects[project.id] ? (
+                        <button className="add-btn" onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: false}))}>
+                          Expand Project
+                        </button>
+                      ) : (
+                        <button className="add-btn" onClick={() => initiateUpload(project.id)}>
+                          + Add tracks
+                        </button>
+                      )}
+                      
                       {uploadingProjects[project.id] && (
                         <div style={{ marginTop: '8px', fontSize: '10px', color: '#888', fontStyle: 'italic', paddingLeft: '4px' }}>
                           uploading to cloudinary...
