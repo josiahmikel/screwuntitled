@@ -203,11 +203,13 @@ export default function App() {
          let sourceList = Array.from(boardState.trash);
          const [movedTrack] = sourceList.splice(source.index, 1);
          
+         const newId = `p-${uuidv4()}`;
          const newProject = {
-           id: `p-${uuidv4()}`,
+           id: newId,
            title: getNextProjectTitle(),
            tracks: [movedTrack]
          };
+         setCollapsedProjects(prev => ({ ...prev, [newId]: false }));
          emitUpdate({ projects: [newProject], trash: sourceList });
       }
       return;
@@ -390,11 +392,13 @@ export default function App() {
   };
 
   const handleAddProject = () => {
+    const newId = `p-${uuidv4()}`;
     const newProject = {
-      id: `p-${uuidv4()}`,
+      id: newId,
       title: getNextProjectTitle(),
       tracks: []
     };
+    setCollapsedProjects(prev => ({ ...prev, [newId]: false }));
     emitUpdate({ ...boardState, projects: [...boardState.projects, newProject] });
   };
 
