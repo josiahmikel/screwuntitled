@@ -95,7 +95,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     (error, result) => {
       if (error) {
         console.error("Cloudinary error:", error);
-        return res.status(500).send('Upload failed');
+        return res.status(500).send(error.message || JSON.stringify(error) || 'Upload system failed');
       }
       res.json({ url: result.secure_url, filename: req.file.originalname });
     }
