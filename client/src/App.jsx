@@ -567,7 +567,7 @@ export default function App() {
                           ) : (
                             <div style={{ flex: 1, minHeight: '16px', cursor: 'grab' }}>
                               {project.title || "..."}
-                              {collapsedProjects[project.id] && (
+                              {collapsedProjects[project.id] !== false && (
                                 <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
                                   {project.tracks.length} tracks
                                 </div>
@@ -581,8 +581,8 @@ export default function App() {
                             <button onClick={(e) => { e.stopPropagation(); setEditingProject(project.id); setOpenDropdown(null); }}>
                               Rename
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); setCollapsedProjects(prev => ({...prev, [project.id]: !prev[project.id]})); setOpenDropdown(null); }}>
-                              {collapsedProjects[project.id] ? 'Expand' : 'Collapse'}
+                            <button onClick={(e) => { e.stopPropagation(); setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false})); setOpenDropdown(null); }}>
+                              {collapsedProjects[project.id] !== false ? 'Expand' : 'Collapse'}
                             </button>
                             <button onClick={(e) => handleProjectAction('loop', project, e)}>
                               {loopedProjects[project.id] ? 'Unloop' : 'Loop'}
@@ -601,7 +601,7 @@ export default function App() {
                             className="tracks-list"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            style={{ display: collapsedProjects[project.id] ? 'none' : 'block' }}
+                            style={{ display: collapsedProjects[project.id] !== false ? 'none' : 'block' }}
                           >
                             {project.tracks.map((track, trackIndex) => {
                               const isPlaying = playingId === track.id;
@@ -659,7 +659,7 @@ export default function App() {
                         )}
                       </Droppable>
                       
-                      {collapsedProjects[project.id] ? (
+                      {collapsedProjects[project.id] !== false ? (
                         <button className="add-btn" onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: false}))}>
                           Expand Project
                         </button>
