@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Times New Roman", Times, serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+/* Remove fancy custom scrollbars to force the native OS ones */
+a {
+  text-decoration: underline;
+  color: #000;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  font-family: "Times New Roman", Times, serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #000;
+  padding: 4px 8px;
+  text-align: left;
+}
