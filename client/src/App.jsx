@@ -23,6 +23,14 @@ const formatTime = (seconds) => {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 };
 
+const parseTime = (timeStr) => {
+  if (!timeStr) return 0;
+  const parts = timeStr.split(':');
+  if (parts.length === 2) return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+  if (parts.length === 3) return parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60 + parseInt(parts[2], 10);
+  return 0;
+};
+
 const ScrollableTitle = ({ text }) => {
   const containerRef = useRef(null);
   const textRef = useRef(null);
@@ -567,11 +575,9 @@ export default function App() {
                           ) : (
                             <div style={{ flex: 1, minHeight: '16px', cursor: 'grab' }}>
                               {project.title || "..."}
-                              {collapsedProjects[project.id] !== false && (
-                                <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
-                                  {project.tracks.length} tracks
-                                </div>
-                              )}
+                              <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
+                                {project.tracks.length} tracks • {formatTime(project.tracks.reduce((acc, tr) => acc + parseTime(tr.duration), 0))}
+                              </div>
                             </div>
                           )}
                           <button className="project-menu-btn" onClick={(e) => toggleDropdown(`menu-p-${project.id}`, e)} style={{ marginLeft: '10px' }}>...</button>
