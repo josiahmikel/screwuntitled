@@ -675,7 +675,7 @@ export default function App() {
                         </button>
                       ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <button className="add-btn" onClick={() => initiateUpload(project.id)}>
+                          <button className="add-btn" style={{ color: 'black' }} onClick={() => initiateUpload(project.id)}>
                             + Add tracks
                           </button>
                           <button className="add-btn" style={{ marginTop: '10px', fontSize: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: true}))}>
@@ -701,7 +701,7 @@ export default function App() {
         {isLoaded && (
           <div style={{ marginTop: '150px', marginBottom: '100px' }}>
             <button style={{ fontSize: '10px', fontWeight: 'normal' }} onClick={() => setShowTrash(!showTrash)}>
-              {showTrash ? '- Hide recently deleted' : '+ Recently deleted'}
+              {showTrash ? 'Hide recently deleted' : 'Recently deleted'}
             </button>
             
             {showTrash && (
@@ -713,7 +713,7 @@ export default function App() {
                       {...provided.droppableProps}
                       style={{ minHeight: '50px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}
                     >
-                      {boardState.trash?.length === 0 && <span style={{ color: '#888', fontSize: '10px' }}>Recently deleted is empty</span>}
+                      {boardState.trash?.length === 0 && <span style={{ color: '#888', fontSize: '10px' }}>No recently deleted tracks</span>}
                       {boardState.trash?.map((track, trackIndex) => (
                       <Draggable key={track.id} draggableId={track.id} index={trackIndex}>
                         {(provided) => (
