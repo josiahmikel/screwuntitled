@@ -91,7 +91,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
   // Set resource_type 'video' which Cloudinary requires for ALL audio files natively
   const uploadStream = cloudinary.uploader.upload_stream(
-    { resource_type: 'video', folder: 'fuckuntitled' },
+    { resource_type: 'video' },
     (error, result) => {
       if (error) {
         console.error("Cloudinary error:", error);
