@@ -78,6 +78,7 @@ export default function App() {
   const [playingId, setPlayingId] = useState(null);
   const [playbackTime, setPlaybackTime] = useState(0);
   const [playbackDuration, setPlaybackDuration] = useState(0);
+  const [uploadingProjects, setUploadingProjects] = useState({});
   
   const [loopedTracks, setLoopedTracks] = useState({});
   const [loopedProjects, setLoopedProjects] = useState({});
@@ -389,6 +390,7 @@ export default function App() {
   const processFiles = async (files, projectId) => {
     if (!files || !files.length || !projectId) return;
 
+    setUploadingProjects(prev => ({ ...prev, [projectId]: true }));
     try {
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
@@ -398,6 +400,12 @@ export default function App() {
           method: 'POST',
           body: formData
         });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(`Server returned ${res.status}: ${errText}`);
+        }
+
         const data = await res.json();
         
         return new Promise((resolve) => {
@@ -443,6 +451,9 @@ export default function App() {
       });
     } catch (err) {
       console.error('Upload failed', err);
+      alert(`Upload Failed! Vercel or Render might be misconfigured.\n\nError: ${err.message}`);
+    } finally {
+      setUploadingProjects(prev => ({ ...prev, [projectId]: false }));
     }
   };
 
@@ -625,6 +636,11 @@ export default function App() {
                       <button className="add-btn" onClick={() => initiateUpload(project.id)}>
                         + Add Track
                       </button>
+                      {uploadingProjects[project.id] && (
+                        <div style={{ marginTop: '8px', fontSize: '10px', color: '#888', fontStyle: 'italic', paddingLeft: '4px' }}>
+                          uploading to cloudinary...
+                        </div>
+                      )}
                     </div>
                   )}
                 </Draggable>
