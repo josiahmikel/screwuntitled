@@ -463,7 +463,7 @@ export default function App() {
         let newProjects = [...prev.projects];
         const pIdx = newProjects.findIndex(p => p.id === projectId);
         if (pIdx !== -1) {
-          newProjects[pIdx] = { ...newProjects[pIdx], tracks: [...newProjects[pIdx].tracks, ...newTracks] };
+          newProjects[pIdx] = { ...newProjects[pIdx], tracks: [...newTracks, ...newProjects[pIdx].tracks] };
           socket.emit('updateBoard', { projects: newProjects, trash: prev.trash });
           return { ...prev, projects: newProjects };
         }
