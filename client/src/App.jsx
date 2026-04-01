@@ -513,7 +513,7 @@ export default function App() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', gap: '120px', marginBottom: '80px' }}>
         <div>
-          <h1 className="demos-header" style={{ margin: 0 }}>fuck[untitled]</h1>
+          <h1 className="demos-header" style={{ margin: 0 }}>In progress</h1>
           {!isLoaded && (
             <div style={{ fontSize: '10px', color: '#888', fontStyle: 'italic', marginTop: '10px' }}>
               connecting to cloud...
