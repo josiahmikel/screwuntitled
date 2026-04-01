@@ -582,12 +582,12 @@ export default function App() {
                           ) : (
                             <div style={{ flex: 1, minHeight: '16px', cursor: 'grab' }}>
                               {project.title || "..."}
-                              <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
+                              <div style={{ fontSize: '10px', color: '#888', marginTop: '6px' }}>
                                 {project.tracks.length} tracks • {formatTime(project.tracks.reduce((acc, tr) => acc + parseTime(tr.duration), 0))}
                               </div>
                               <button 
                                 className="add-btn" 
-                                style={{ marginTop: '4px', fontSize: '10px', padding: 0 }} 
+                                style={{ marginTop: '6px', fontSize: '10px', padding: 0 }} 
                                 onClick={(e) => { e.stopPropagation(); setCollapsedProjects(prev => ({...prev, [project.id]: collapsedProjects[project.id] !== false ? false : true})); }}
                               >
                                 {collapsedProjects[project.id] !== false ? '+ Expand project' : '- Collapse project'}
