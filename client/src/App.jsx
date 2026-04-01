@@ -561,7 +561,7 @@ export default function App() {
                       }}
                     >
                       <div className="project-title" style={{ position: 'relative' }} {...provided.dragHandleProps}>
-                        <div style={{ display: 'flex', alignItems: 'center' }} onDoubleClick={() => setEditingProject(project.id)}>
+                        <div style={{ display: 'flex', alignItems: 'center' }} onDoubleClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))}>
                           {editingProject === project.id ? (
                             <input 
                               autoFocus
