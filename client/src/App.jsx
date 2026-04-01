@@ -101,10 +101,10 @@ export default function App() {
   const fileInputRef = useRef(null);
   const [uploadTargetId, setUploadTargetId] = useState(null);
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 850);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 850);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -558,7 +558,7 @@ export default function App() {
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      style={{ ...provided.draggableProps.style, paddingRight: isMobile ? '0px' : '120px', paddingBottom: isMobile ? '80px' : '0px' }}
+                      style={{ ...provided.draggableProps.style, paddingRight: isMobile ? '0px' : '40px', paddingBottom: isMobile ? '60px' : '0px' }}
                     >
                       <Droppable droppableId={project.id} type="TRACK">
                         {(trackProvided) => (

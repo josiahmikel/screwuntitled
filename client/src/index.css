@@ -42,7 +42,7 @@ h1.demos-header {
 }
 
 .header-container {
-  gap: 120px;
+  gap: 40px;
 }
 
 .board {
@@ -53,10 +53,10 @@ h1.demos-header {
 }
 
 .project-column {
-  width: 200px;
+  width: 240px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   body {
     padding: 20px;
   }
