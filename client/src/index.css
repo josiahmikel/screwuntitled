@@ -44,7 +44,9 @@ h1.demos-header {
 .board {
   display: flex;
   align-items: flex-start;
-  flex-wrap: wrap;
+  flex-direction: row;
+  overflow-x: auto;
+  min-height: 500px;
 }
 
 .project-column {

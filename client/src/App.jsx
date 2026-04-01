@@ -561,7 +561,7 @@ export default function App() {
                       }}
                     >
                       <div className="project-title" style={{ position: 'relative' }} {...provided.dragHandleProps}>
-                        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))}>
+                        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))} onContextMenu={(e) => { e.preventDefault(); setEditingProject(project.id); }}>
                           {editingProject === project.id ? (
                             <input 
                               autoFocus
