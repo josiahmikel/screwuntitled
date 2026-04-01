@@ -582,6 +582,13 @@ export default function App() {
                               <div style={{ fontSize: '10px', color: '#888', marginTop: '2px' }}>
                                 {project.tracks.length} tracks • {formatTime(project.tracks.reduce((acc, tr) => acc + parseTime(tr.duration), 0))}
                               </div>
+                              <button 
+                                className="add-btn" 
+                                style={{ marginTop: '4px', fontSize: '10px', padding: 0 }} 
+                                onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: collapsedProjects[project.id] !== false ? false : true}))}
+                              >
+                                {collapsedProjects[project.id] !== false ? '+ Expand project' : '- Collapse project'}
+                              </button>
                             </div>
                           )}
                           <button className="project-menu-btn" onClick={(e) => toggleDropdown(`menu-p-${project.id}`, e)} style={{ marginLeft: '10px' }}>...</button>
@@ -669,17 +676,10 @@ export default function App() {
                         )}
                       </Droppable>
                       
-                      {collapsedProjects[project.id] !== false ? (
-                        <button className="add-btn" style={{ fontSize: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: false}))}>
-                          + Expand project
-                        </button>
-                      ) : (
+                      {collapsedProjects[project.id] !== false ? null : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                           <button className="add-btn" style={{ color: 'black' }} onClick={() => initiateUpload(project.id)}>
                             + Add tracks
-                          </button>
-                          <button className="add-btn" style={{ marginTop: '10px', fontSize: '10px' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: true}))}>
-                            - Collapse project
                           </button>
                         </div>
                       )}
