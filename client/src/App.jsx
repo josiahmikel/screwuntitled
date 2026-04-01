@@ -101,6 +101,14 @@ export default function App() {
   const fileInputRef = useRef(null);
   const [uploadTargetId, setUploadTargetId] = useState(null);
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     socket.on('initialState', (state) => {
       setBoardState({ projects: state.projects || [], trash: state.trash || [] });
@@ -511,7 +519,7 @@ export default function App() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', gap: '120px', marginBottom: '80px' }}>
+      <div className="header-container" style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline', marginBottom: '80px' }}>
         <div>
           <h1 className="demos-header" style={{ margin: 0 }}>In progress</h1>
           {!isLoaded && (
@@ -537,7 +545,7 @@ export default function App() {
       />
 
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-        <Droppable droppableId="board" type="PROJECT" direction="horizontal">
+        <Droppable droppableId="board" type="PROJECT" direction={isMobile ? "vertical" : "horizontal"}>
           {(provided) => (
             <div 
               className="board"
@@ -550,7 +558,7 @@ export default function App() {
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      style={{ ...provided.draggableProps.style, paddingRight: '120px' }}
+                      style={{ ...provided.draggableProps.style, paddingRight: isMobile ? '0px' : '120px', paddingBottom: isMobile ? '80px' : '0px' }}
                     >
                       <Droppable droppableId={project.id} type="TRACK">
                         {(trackProvided) => (
