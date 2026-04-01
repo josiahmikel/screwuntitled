@@ -552,16 +552,20 @@ export default function App() {
                       {...provided.draggableProps}
                       style={{ ...provided.draggableProps.style, paddingRight: '120px' }}
                     >
-                      <div
-                        className="project-column"
-                        onDragOver={(e) => handleNativeDragOver(e, project.id)}
-                        onDragLeave={handleNativeDragLeave}
-                        onDrop={(e) => handleNativeDrop(e, project.id)}
-                        style={{
-                          backgroundColor: dragOverlayId === project.id ? '#f0f0f0' : 'transparent',
-                          transition: 'background-color 0.1s'
-                        }}
-                      >
+                      <Droppable droppableId={project.id} type="TRACK">
+                        {(trackProvided) => (
+                          <div
+                            className="project-column"
+                            ref={trackProvided.innerRef}
+                            {...trackProvided.droppableProps}
+                            onDragOver={(e) => handleNativeDragOver(e, project.id)}
+                            onDragLeave={handleNativeDragLeave}
+                            onDrop={(e) => handleNativeDrop(e, project.id)}
+                            style={{
+                              backgroundColor: dragOverlayId === project.id ? '#f0f0f0' : 'transparent',
+                              transition: 'background-color 0.1s'
+                            }}
+                          >
                       <div className="project-title" style={{ position: 'relative' }} {...provided.dragHandleProps}>
                         <div style={{ display: 'flex', alignItems: 'flex-start', cursor: 'pointer' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))} onContextMenu={(e) => { e.preventDefault(); setEditingProject(project.id); }}>
                           {editingProject === project.id ? (
@@ -615,13 +619,7 @@ export default function App() {
                         )}
                       </div>
                       
-                      <Droppable droppableId={project.id} type="TRACK">
-                        {(provided) => (
-                          <div 
-                            className="tracks-list"
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                          >
+
                             {collapsedProjects[project.id] !== false ? null : project.tracks.map((track, trackIndex) => {
                               const isPlaying = playingId === track.id;
                               
@@ -673,10 +671,7 @@ export default function App() {
                                 </Draggable>
                               );
                             })}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
+                            {trackProvided.placeholder}
                       
                       {collapsedProjects[project.id] !== false ? null : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -691,7 +686,9 @@ export default function App() {
                           uploading to cloudinary...
                         </div>
                       )}
-                      </div>
+                          </div>
+                        )}
+                      </Droppable>
                     </div>
                   )}
                 </Draggable>
