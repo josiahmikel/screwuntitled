@@ -44,12 +44,12 @@ h1.demos-header {
 .board {
   display: flex;
   align-items: flex-start;
-  gap: 120px;
   flex-wrap: wrap;
 }
 
 .project-column {
   width: 200px;
+  margin-right: 120px;
 }
 
 .project-title {

@@ -710,7 +710,7 @@ export default function App() {
                     <div 
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      style={{ minHeight: '50px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}
+                      style={{ minHeight: '50px', display: 'flex', flexWrap: 'wrap' }}
                     >
                       {boardState.trash?.length === 0 && <span style={{ color: '#888', fontSize: '10px' }}>No recently deleted tracks</span>}
                       {boardState.trash?.map((track, trackIndex) => (
@@ -722,6 +722,8 @@ export default function App() {
                              {...provided.dragHandleProps}
                              style={{
                                fontSize: '10px',
+                               marginRight: '20px',
+                               marginBottom: '10px',
                                ...provided.draggableProps.style
                              }}
                            >
