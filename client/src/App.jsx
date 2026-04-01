@@ -548,18 +548,20 @@ export default function App() {
                 <Draggable key={project.id} draggableId={project.id} index={index}>
                   {(provided) => (
                     <div
-                      className="project-column"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      onDragOver={(e) => handleNativeDragOver(e, project.id)}
-                      onDragLeave={handleNativeDragLeave}
-                      onDrop={(e) => handleNativeDrop(e, project.id)}
-                      style={{
-                        ...provided.draggableProps.style,
-                        backgroundColor: dragOverlayId === project.id ? '#f0f0f0' : 'transparent',
-                        transition: 'background-color 0.1s'
-                      }}
+                      style={{ ...provided.draggableProps.style, paddingRight: '120px' }}
                     >
+                      <div
+                        className="project-column"
+                        onDragOver={(e) => handleNativeDragOver(e, project.id)}
+                        onDragLeave={handleNativeDragLeave}
+                        onDrop={(e) => handleNativeDrop(e, project.id)}
+                        style={{
+                          backgroundColor: dragOverlayId === project.id ? '#f0f0f0' : 'transparent',
+                          transition: 'background-color 0.1s'
+                        }}
+                      >
                       <div className="project-title" style={{ position: 'relative' }} {...provided.dragHandleProps}>
                         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))} onContextMenu={(e) => { e.preventDefault(); setEditingProject(project.id); }}>
                           {editingProject === project.id ? (
@@ -689,6 +691,7 @@ export default function App() {
                           uploading to cloudinary...
                         </div>
                       )}
+                      </div>
                     </div>
                   )}
                 </Draggable>
