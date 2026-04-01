@@ -561,7 +561,7 @@ export default function App() {
                       }}
                     >
                       <div className="project-title" style={{ position: 'relative' }} {...provided.dragHandleProps}>
-                        <div style={{ display: 'flex', alignItems: 'center' }} onDoubleClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))}>
+                        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: prev[project.id] === false ? true : false}))}>
                           {editingProject === project.id ? (
                             <input 
                               autoFocus
@@ -574,6 +574,7 @@ export default function App() {
                                   setEditingProject(null);
                                 } 
                               }}
+                              onClick={(e) => e.stopPropagation()}
                               style={{ width: '100%' }}
                             />
                           ) : (
@@ -585,7 +586,7 @@ export default function App() {
                               <button 
                                 className="add-btn" 
                                 style={{ marginTop: '4px', fontSize: '10px', padding: 0 }} 
-                                onClick={() => setCollapsedProjects(prev => ({...prev, [project.id]: collapsedProjects[project.id] !== false ? false : true}))}
+                                onClick={(e) => { e.stopPropagation(); setCollapsedProjects(prev => ({...prev, [project.id]: collapsedProjects[project.id] !== false ? false : true})); }}
                               >
                                 {collapsedProjects[project.id] !== false ? '+ Expand project' : '- Collapse project'}
                               </button>
