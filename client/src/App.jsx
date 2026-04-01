@@ -677,7 +677,7 @@ export default function App() {
                       
                       {collapsedProjects[project.id] !== false ? null : (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <button className="add-btn" style={{ color: 'black' }} onClick={() => initiateUpload(project.id)}>
+                          <button className="add-btn" onClick={() => initiateUpload(project.id)}>
                             + Add tracks
                           </button>
                         </div>
