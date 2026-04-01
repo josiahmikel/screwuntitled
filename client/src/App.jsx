@@ -618,9 +618,8 @@ export default function App() {
                             className="tracks-list"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
-                            style={{ display: collapsedProjects[project.id] !== false ? 'none' : 'block' }}
                           >
-                            {project.tracks.map((track, trackIndex) => {
+                            {collapsedProjects[project.id] !== false ? null : project.tracks.map((track, trackIndex) => {
                               const isPlaying = playingId === track.id;
                               
                               let displayTime = track.duration || '1:00';

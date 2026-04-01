@@ -6,6 +6,8 @@ body {
   color: #000;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 * {
@@ -29,6 +31,8 @@ input {
   color: inherit;
   outline: none;
   padding: 0;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 h1.demos-header {
